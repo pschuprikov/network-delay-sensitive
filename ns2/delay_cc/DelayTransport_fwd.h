@@ -1,0 +1,6 @@
+#ifndef NS2_DELAYTRANSPORT_FWD_H
+#define NS2_DELAYTRANSPORT_FWD_H
+
+class DelayTransport;
+
+#endif //NS2_DELAYTRANSPORT_FWD_H

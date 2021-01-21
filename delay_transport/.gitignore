@@ -1,0 +1,7 @@
+cmake-build-release/
+cmake-build-debug/
+.idea/
+.envrc
+.clangd/
+compile_commands.json
+

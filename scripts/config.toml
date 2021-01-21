@@ -1,0 +1,246 @@
+use_deadline = true
+link_rate = 10
+mean_link_delay = 0.0000002
+host_delay = 0.000020
+queue_size = 140
+connections_per_pair = 1
+pareto_shape = 1.05
+enable_dupack = false
+
+enable_multi_path = 1
+per_flow_mp = 0
+
+ack_ratio = 1
+slow_start_restart = true
+dctcp_g = 0.0625
+prob_cap = 5
+
+dctcp_k = 65.0
+drop_prio = true
+deque_prio = true
+keep_order = true
+use_fifo_processing_order = false
+expiration_time_controller = false
+ecn_scheme = 2
+pias_thresh_0 = [ 759,  909,  999,  956, 1059]
+pias_thresh_1 = [1132, 1329, 1305, 1381, 1412]
+pias_thresh_2 = [1456, 1648, 1564, 1718, 1643]
+pias_thresh_3 = [1737, 1960, 1763, 2028, 1869]
+pias_thresh_4 = [2010, 2143, 1956, 2297, 2008]
+pias_thresh_5 = [2199, 2337, 2149, 2551, 2115]
+pias_thresh_6 = [2325, 2484, 2309, 2660, 2184]
+
+[scale]
+
+    [scale.final]
+    sim_end = 10000
+    load_arr = [0.5, 0.6, 0.7, 0.8, 0.9]
+    topology_spt = 16
+    topology_tors = 9
+    topology_spines = 4
+    topology_x = 1
+
+    [scale.tiny]
+    sim_end = 500
+    load_arr = [0.5]
+    topology_spt = 2
+    topology_tors = 2
+    topology_spines = 2
+    topology_x = 1
+
+    [scale.small]
+    sim_end = 500
+    load_arr = [0.5]
+    topology_spt = 8
+    topology_tors = 4
+    topology_spines = 4
+    topology_x = 1
+
+    [scale.local]
+    sim_end = 2000
+    load_arr = [0.5, 0.9]
+    topology_spt = 4
+    topology_tors = 9
+    topology_spines = 4
+    topology_x = 1
+
+    [scale.long]
+    sim_end = 10000
+    load_arr = [0.5]
+    topology_spt = 2
+    topology_tors = 4
+    topology_spines = 4
+    topology_x = 1
+
+[input]
+
+    [input.data_mining]
+    arrivals_flow_cdf = "CDF_vl2.tcl"
+    arrivals_mean_flow_size = 5117
+
+    [input.web_search]
+    arrivals_flow_cdf = "CDF_dctcp.tcl"
+    arrivals_mean_flow_size = 1138
+
+    [input.const]
+    arrivals_mean_flow_size = 20
+    arrivals_fixed = 20
+
+    [input.small_uniform]
+    arrivals_mean_flow_size = 20
+    arrivals_uniform_min = 15
+    arrivals_uniform_max = 25
+
+    [input.uniform]
+    arrivals_mean_flow_size = 95
+    arrivals_uniform_min = 90
+    arrivals_uniform_max = 100
+
+[slacks]
+
+    [slacks.uniform]
+    delay_assignment_use_capping = false
+    delay_assignment_uniform_max_delay = 0.1
+    delay_assignment_uniform_min_delay = 0.001
+
+    [slacks.normal]
+    delay_assignment_use_capping = false
+    delay_assignment_size_upper_bound = 204800
+    delay_assignment_exp = 0.001
+
+    [slacks.unbounded_normal]
+    delay_assignment_use_capping = false
+    delay_assignment_exp = 0.001
+
+    [slacks.tight]
+    delay_assignment_use_capping = false
+    delay_assignment_size_upper_bound = 204800
+    delay_assignment_exp = 0.0001
+
+    [slacks.unbounded_tight]
+    delay_assignment_use_capping = false
+    delay_assignment_exp = 0.0001
+
+[buffer]
+
+    [buffer.pfabric]
+    switch_alg = "DropTail"
+    prio_scheme = "remaining_size"
+    use_deadline = false
+    prio_num = 0
+    # unused
+    enable_delay = false
+
+    [buffer.pfabric_expiration]
+    switch_alg = "DropTail/D"
+    prio_scheme = "remaining_size"
+    use_deadline = false
+    prio_num = 0
+    # unused
+    enable_delay = true
+
+    [buffer.pfabric_edf]
+    switch_alg = "DropTail"
+    prio_scheme = "unknown"
+    use_deadline = true
+    prio_num = 0
+    # unused
+    enable_delay = false
+
+    [buffer.pfabric_edf_expiration]
+    switch_alg = "DropTail/D"
+    prio_scheme = "unknown"
+    use_deadline = true
+    prio_num = 0
+    # unused
+    enable_delay = true
+
+    [buffer.delay_la_unif]
+    switch_alg = "LA"
+    # unused
+    prio_scheme = "unknown"
+    # unused?
+    use_deadline = true
+    # unused
+    prio_num = 1
+    enable_delay = true
+    packet_properties_assignment_uniform = true
+
+    [buffer.delay_la_inv_rem_size]
+    switch_alg = "LA"
+    # unused
+    prio_scheme = "unknown"
+    # unused?
+    use_deadline = true
+    # unused
+    prio_num = 1
+    enable_delay = true
+    packet_properties_assignment_inv_rem_size = true
+
+    [buffer.delay_la_inv_size]
+    switch_alg = "LA"
+    # unused
+    prio_scheme = "unknown"
+    # unused?
+    use_deadline = true
+    # unused
+    prio_num = 1
+    enable_delay = true
+    packet_properties_assignment_inv_size = true
+
+    [buffer.delay_la_las]
+    switch_alg = "LA"
+    # unused
+    prio_scheme = "unknown"
+    # unused?
+    use_deadline = true
+    # unused
+    prio_num = 1
+    enable_delay = true
+    packet_properties_assignment_las = true
+
+    [buffer.droptail]
+    switch_alg = "Priority"
+    # unused
+    prio_scheme = "unknown"
+    # unused?
+    use_deadline = true
+    prio_num = 2
+    # unused
+    enable_delay = false
+
+    [buffer.droptail_expiration]
+    switch_alg = "Priority/D"
+    # unused
+    prio_scheme = "unknown"
+    # unused?
+    use_deadline = true
+    prio_num = 2 # TODO: what if 1?
+    # unused
+    enable_delay = true
+
+[control]
+
+    [control.pfabric]
+    source_alg = "MinTCP-Sack"
+    enable_early_expiration = false
+    min_rto = 0.000250
+    init_window = 70
+
+    [control.ddtcp]
+    source_alg = "DDTCP"
+    enable_early_expiration = false
+    min_rto = 0.002
+    init_window = 70
+
+    [control.pfabric_expiration]
+    source_alg = "MinTCP-Sack"
+    enable_early_expiration = true
+    min_rto = 0.000250
+    init_window = 70
+
+    [control.ddtcp_expiration]
+    source_alg = "DDTCP"
+    enable_early_expiration = true
+    min_rto = 0.002
+    init_window = 70
